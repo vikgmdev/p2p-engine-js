@@ -1,23 +1,17 @@
-import P2P from './p2p.js';
+import P2PNetwork from './p2p-network';
 
 const me = process.argv[2];
 const peers = process.argv.slice(3);
 
-const friends = {}
+const p2pNetwork = new P2PNetwork(me, peers);
 
-const swarm = new P2P(me, peers);
-
-swarm.on('connection', (socket, peerId) => {
-    console.log('[a friend joined]:', peerId)
-    friends[peerId] = socket;
-    socket.on('data', data => {
-        console.log(data.toString().trim());
-    })
-})
-
-process.stdin.on('data', data => {
-    Object.values(friends).forEach(friend => {
-        friend.write(data)
-    })
+p2pNetwork.on('connection', (socket, peerId) => {
+  console.log('[a peer joined]:', peerId);
+  socket.on('data', (data: Buffer) => {
+    console.log(data.toString().trim());
+  });
 });
 
+process.stdin.on('data', (data: string) => {
+  p2pNetwork.connections.forEach((peer) => peer.write(data));
+});
