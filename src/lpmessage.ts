@@ -10,7 +10,7 @@ export function read(stream: Readable, cb) {
   let prev: Buffer | null = null;
   let lock = false;
 
-  const unlock = () => lock = false;
+  const unlock = () => (lock = false);
 
   const readable = () => {
     if (lock) return;
@@ -42,20 +42,20 @@ export function read(stream: Readable, cb) {
     if (!chunk) return unlock();
 
     stream.removeListener('readable', readable);
-    cb(chunk)
+    cb(chunk);
   };
 
   stream.on('readable', readable);
   readable();
-};
+}
 
 export function write(stream: Writable, msg: Buffer) {
   if (typeof msg === 'string') msg = Buffer.from(msg);
   varint.encode(msg.length, pool);
-  var lenBuf = pool.slice(0, varint.encode.bytes);
+  const lenBuf = pool.slice(0, varint.encode.bytes);
   pool = pool.slice(varint.encode.bytes);
   if (pool.length < MINIMUM_POOL_LENGTH) pool = Buffer.alloc(POOL_SIZE);
 
   stream.write(lenBuf);
   stream.write(msg);
-};
+}
