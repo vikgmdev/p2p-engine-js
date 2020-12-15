@@ -1,4 +1,4 @@
-# P2P Engine
+# P2P Engine JS
 
 A sample p2p implementation made with Typescript and NodeJS
 

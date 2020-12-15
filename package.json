@@ -1,12 +1,12 @@
 {
-  "name": "p2p",
+  "name": "p2p-engine-js",
   "version": "1.0.0",
-  "description": "",
+  "description": "A sample p2p implementation made with Typescript and NodeJS",
   "main": "index.js",
   "scripts": {
     "serve": "nodemon -r ts-node/register/transpile-only src/app.ts"
   },
-  "author": "",
+  "author": "Victor Garcia",
   "license": "ISC",
   "dependencies": {
     "varint": "6.0.0"
